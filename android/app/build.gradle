@@ -1,0 +1,50 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+ 
+def keystorePropertiesFile = file('C:/Users/davi.aoconceicao/Documents/flutter/bd_tarefas/db_tarefas/android/app/key.properties') // add
+def keystoreProperties = new Properties() // add
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile)) // add
+ 
+android {
+    namespace = "com.example.bd_tarefas"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+ 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+ 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+ 
+    defaultConfig {
+        applicationId = "com.example.bandodedados"
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+ 
+    signingConfigs { //add
+        release {
+            keyAlias keystoreProperties['keyAlias'] //add
+            keyPassword keystoreProperties['keyPassword'] //add
+            storeFile file(keystoreProperties['storeFile']) //add
+            storePassword keystoreProperties['storePassword'] //add
+        } //add
+    } //add
+ 
+    buildTypes { //add
+        release { //add
+            signingConfig signingConfigs.release //add
+            minifyEnabled true //add
+            shrinkResources true //add
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' //add
+        }   //add
+    }//add
+}
